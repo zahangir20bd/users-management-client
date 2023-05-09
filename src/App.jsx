@@ -18,7 +18,22 @@ function App() {
 
     const user = { name, email };
 
-    console.log(user);
+    fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/JSON",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+
+        console.log(user);
+        const newUsers = [...users, data];
+        setUsers(newUsers);
+        form.reset();
+      });
   };
 
   return (
@@ -32,7 +47,7 @@ function App() {
       </form>
       {users.map((user) => (
         <p key={user.id}>
-          id-{user.id}: Name: {user.name}, Email: {user.email}
+          ID-{user.id}: Name: {user.name}, Email: {user.email}
         </p>
       ))}
     </>
